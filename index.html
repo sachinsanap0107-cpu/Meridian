@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Meridian — Symptom Check</title>
+<meta name="description" content="Meridian helps you describe symptoms, review common patterns, and decide what kind of care or next step makes sense.">
+<meta name="theme-color" content="#163F3D">
+<meta name="background-color" content="#F5F7F4">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Meridian">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Crect width='24' height='24' rx='6' fill='%23163F3D'/%3E%3Cg transform='translate(3.6 3.6) scale(.7)'%3E%3Ccircle cx='12' cy='12' r='9.5' fill='none' stroke='%23F5F7F4' stroke-width='2'/%3E%3Cpath d='M9.5 2.9C5.9 8.3 5.9 15.7 9.5 21.1' fill='none' stroke='%23F5F7F4' stroke-width='2' stroke-linecap='round'/%3E%3Ccircle cx='15.6' cy='12' r='2.6' fill='%23E0866B'/%3E%3C/g%3E%3C/svg%3E">
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="icons/meridian-icon-192.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,72,400;0,72,500;0,72,600;1,72,500&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="app-status-region" aria-live="polite" aria-atomic="true">
+  <div id="offlineNotice" class="app-status notice offline" role="status" hidden>
+    <p>You're offline. Meridian's app shell is available, but account and saved history require a connection.</p>
+    <button type="button" class="btn btn-ghost btn-small" data-dismiss="offlineNotice">Dismiss</button>
+  </div>
+
+  <div id="updateNotice" class="app-status notice update" role="status" hidden>
+    <p>A new version of Meridian is available.</p>
+    <div class="app-status-actions">
+      <button type="button" class="btn btn-primary btn-small" id="updateAppBtn">Update</button>
+      <button type="button" class="btn btn-ghost btn-small" id="laterUpdateBtn">Later</button>
+    </div>
+  </div>
+
+  <div id="installNotice" class="app-status notice install" role="status" hidden>
+    <p>Install Meridian for a quick app-like launch.</p>
+    <div class="app-status-actions">
+      <button type="button" class="btn btn-primary btn-small" id="installAppBtn">Install Meridian</button>
+      <button type="button" class="btn btn-ghost btn-small" data-dismiss="installNotice">Later</button>
+    </div>
+  </div>
+</div>
+
+<a class="skip-link" href="#top">Skip to content</a>
+<header class="site-header">
+  <div class="wrap header-inner">
+    <a class="brand" href="#top" data-nav="home">
+      <svg class="brand-mark" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9.5" fill="none" stroke="currentColor" stroke-width="1.75"/><path d="M9.5 2.9C5.9 8.3 5.9 15.7 9.5 21.1" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round"/><circle class="mark-dot" cx="15.6" cy="12" r="2.3"/></svg>
+      <span>Meridian</span>
+    </a>
+    <input type="checkbox" id="navToggle" class="nav-toggle" aria-label="Menu" aria-controls="siteMenu">
+    <label for="navToggle" class="nav-burger" aria-hidden="true"><span></span></label>
+    <div class="header-right" id="siteMenu">
+      <nav aria-label="Primary">
+        <a href="#check" data-nav="home" class="nav-cta">Start a check</a>
+        <a href="#how" data-nav="home">How it works</a>
+        <a href="#" data-nav="history">History</a>
+        <a href="#" data-nav="account">Account</a>
+        <a href="#about" data-nav="home">About</a>
+      </nav>
+      <div class="auth-slot" id="authSlot"></div>
+    </div>
+  </div>
+</header>
+
+<main id="top">
+
+  <!-- ============ HOME VIEW ============ -->
+  <div class="view" data-view="home" id="view-home">
+
+    <section class="hero wrap">
+      <div class="hero-copy">
+        <h1>Make sense of your symptoms in about three minutes.</h1>
+        <p class="lede">Describe what you're experiencing in your own words, or pick from a checklist. Meridian checks your answers against common patterns and points you toward a sensible next step — self-care, a doctor's visit, or urgent attention.</p>
+        <div class="hero-actions">
+          <a href="#check" class="btn btn-primary" data-nav="home">Start a symptom check</a>
+          <a href="#how" class="btn btn-ghost" data-nav="home">How it works</a>
+        </div>
+        <p class="hero-disclaimer" role="note">This is not a diagnosis. If this is a medical emergency, call your local emergency number now.</p>
+      </div>
+      <div class="hero-visual" aria-hidden="true">
+        <svg viewBox="0 0 400 400" class="meridian-art">
+          <circle class="art-ring" cx="200" cy="200" r="176"/>
+          <ellipse class="art-line" cx="200" cy="200" rx="118" ry="176"/>
+          <ellipse class="art-line" cx="200" cy="200" rx="52" ry="176"/>
+          <line class="art-line" x1="24" y1="200" x2="376" y2="200"/>
+          <path class="art-line" d="M46 116h308M46 284h308"/>
+          <path class="art-meridian" d="M170 27C90 110 90 290 170 373"/>
+          <circle class="art-dot-halo" cx="257" cy="200" r="15"/>
+          <circle class="art-dot" cx="257" cy="200" r="7"/>
+        </svg>
+      </div>
+    </section>
+
+    <section id="how" class="how wrap">
+      <h2>How this works</h2>
+      <ol class="how-steps">
+        <li>
+          <span class="step-index">1</span>
+          <div>
+            <h3>Tell us what's going on</h3>
+            <p>Describe it in your own words, or pick from a checklist of common symptoms.</p>
+          </div>
+        </li>
+        <li>
+          <span class="step-index">2</span>
+          <div>
+            <h3>Add a few details</h3>
+            <p>How long it's lasted and how severe it feels changes what we recommend.</p>
+          </div>
+        </li>
+        <li>
+          <span class="step-index">3</span>
+          <div>
+            <h3>Get a clear next step</h3>
+            <p>A short list of likely explanations, and whether to rest, book an appointment, or seek care now.</p>
+          </div>
+        </li>
+      </ol>
+    </section>
+
+    <section id="check" class="checker wrap">
+      <div class="checker-frame">
+
+        <aside class="checker-rail" aria-label="Progress">
+          <ol class="rail-steps">
+            <li data-step="1" class="rail-active" aria-current="step">Symptoms</li>
+            <li data-step="2">Details</li>
+            <li data-step="3">Result</li>
+          </ol>
+        </aside>
+
+        <div class="checker-panel">
+
+          <!-- CONVERSATION (default start) -->
+          <div class="panel-step" data-panel="chat">
+            <h2 tabindex="-1">Tell Meridian what you're experiencing</h2>
+            <p class="panel-hint">Describe it in your own words. Meridian asks a few follow-up questions, one at a time.</p>
+            <div class="chat-log" id="chatLog" role="log" aria-label="Conversation with Meridian" aria-relevant="additions" tabindex="0"></div>
+            <p class="chat-status" id="chatStatus" role="status" hidden></p>
+            <form class="chat-form" id="chatForm">
+              <label for="chatInput" class="sr-only">Describe what you're experiencing</label>
+              <textarea id="chatInput" rows="1" maxlength="600" placeholder="Tell Meridian what you're experiencing..." autocomplete="off"></textarea>
+              <button class="btn btn-primary" id="chatSendBtn" type="submit">Send</button>
+            </form>
+            <div class="panel-actions">
+              <button class="btn btn-ghost" id="toManual" type="button">Choose symptoms instead</button>
+            </div>
+          </div>
+
+          <!-- STEP 1 -->
+          <div class="panel-step" data-panel="1" hidden>
+            <h2 tabindex="-1">What are you feeling?</h2>
+            <p class="panel-hint">Select everything that applies. It's fine to pick symptoms from more than one area.</p>
+            <button class="btn btn-ghost btn-small" id="toChat" type="button">Describe it in your own words instead</button>
+
+            <div class="redflag-box" role="group" aria-labelledby="rfTitle">
+              <h3 id="rfTitle">First — check for any of these right now</h3>
+              <div class="redflag-list" id="redflagList">
+                <label class="rf-item"><input type="checkbox" data-rf="cardiac"> Chest pain or pressure with shortness of breath, sweating, or pain spreading to your arm or jaw</label>
+                <label class="rf-item"><input type="checkbox" data-rf="stroke"> Sudden face drooping, arm weakness, or slurred speech</label>
+                <label class="rf-item"><input type="checkbox" data-rf="breathing"> Severe difficulty breathing or blue-tinged lips</label>
+                <label class="rf-item"><input type="checkbox" data-rf="bleeding"> Heavy bleeding that won't stop, or vomiting/coughing blood</label>
+                <label class="rf-item"><input type="checkbox" data-rf="meningitis"> High fever with a stiff neck, confusion, or a rash that doesn't fade under pressure</label>
+                <label class="rf-item"><input type="checkbox" data-rf="abdo"> Sudden, severe abdominal pain that is rigid or unbearable</label>
+              </div>
+            </div>
+
+            <div class="symptom-groups" id="symptomGroups">
+
+              <fieldset class="symptom-group">
+                <legend>General</legend>
+                <label><input type="checkbox" data-key="fever"> Fever</label>
+                <label><input type="checkbox" data-key="mild_fever"> Mild, low-grade fever</label>
+                <label><input type="checkbox" data-key="chills"> Chills</label>
+                <label><input type="checkbox" data-key="fatigue"> Fatigue or low energy</label>
+                <label><input type="checkbox" data-key="night_sweats"> Night sweats</label>
+              </fieldset>
+
+              <fieldset class="symptom-group">
+                <legend>Head &amp; neurological</legend>
+                <label><input type="checkbox" data-key="headache"> Headache</label>
+                <label><input type="checkbox" data-key="dizziness"> Dizziness</label>
+                <label><input type="checkbox" data-key="light_sensitivity"> Sensitivity to light</label>
+                <label><input type="checkbox" data-key="visual_aura"> Visual disturbances before headache</label>
+                <label><input type="checkbox" data-key="neck_stiffness"> Neck stiffness</label>
+                <label><input type="checkbox" data-key="trouble_sleeping"> Trouble sleeping</label>
+              </fieldset>
+
+              <fieldset class="symptom-group">
+                <legend>Respiratory &amp; ENT</legend>
+                <label><input type="checkbox" data-key="cough"> Cough</label>
+                <label><input type="checkbox" data-key="sore_throat"> Sore throat</label>
+                <label><input type="checkbox" data-key="runny_nose"> Runny nose</label>
+                <label><input type="checkbox" data-key="sneezing"> Sneezing</label>
+                <label><input type="checkbox" data-key="congestion"> Nasal congestion</label>
+                <label><input type="checkbox" data-key="thick_mucus"> Thick or discolored mucus</label>
+                <label><input type="checkbox" data-key="facial_pain"> Facial pain or pressure</label>
+                <label><input type="checkbox" data-key="swollen_glands"> Swollen glands</label>
+                <label><input type="checkbox" data-key="difficulty_swallowing"> Pain swallowing</label>
+              </fieldset>
+
+              <fieldset class="symptom-group">
+                <legend>Digestive</legend>
+                <label><input type="checkbox" data-key="nausea"> Nausea</label>
+                <label><input type="checkbox" data-key="vomiting"> Vomiting</label>
+                <label><input type="checkbox" data-key="diarrhea"> Diarrhea</label>
+                <label><input type="checkbox" data-key="stomach_cramps"> Stomach cramps</label>
+                <label><input type="checkbox" data-key="lower_abdo_pain"> Lower abdominal pain</label>
+                <label><input type="checkbox" data-key="loss_of_appetite"> Loss of appetite</label>
+              </fieldset>
+
+              <fieldset class="symptom-group">
+                <legend>Skin</legend>
+                <label><input type="checkbox" data-key="rash"> Rash</label>
+                <label><input type="checkbox" data-key="itching"> Itching</label>
+                <label><input type="checkbox" data-key="hives"> Hives</label>
+                <label><input type="checkbox" data-key="swelling"> Localized swelling</label>
+              </fieldset>
+
+              <fieldset class="symptom-group">
+                <legend>Muscles &amp; joints</legend>
+                <label><input type="checkbox" data-key="muscle_aches"> Muscle aches</label>
+                <label><input type="checkbox" data-key="joint_pain"> Joint pain</label>
+                <label><input type="checkbox" data-key="limited_movement"> Limited movement or stiffness</label>
+              </fieldset>
+
+              <fieldset class="symptom-group">
+                <legend>Urinary</legend>
+                <label><input type="checkbox" data-key="burning_urination"> Burning when urinating</label>
+                <label><input type="checkbox" data-key="frequent_urination"> Needing to urinate often</label>
+              </fieldset>
+
+            </div>
+
+            <p class="inline-msg" id="symptomError" role="alert" hidden></p>
+
+            <div class="panel-actions">
+              <span class="selection-count" id="selectionCount" aria-live="polite">0 symptoms selected</span>
+              <button class="btn btn-primary" id="toStep2">Continue</button>
+            </div>
+          </div>
+
+          <!-- STEP 2 -->
+          <div class="panel-step" data-panel="2" hidden>
+            <h2 tabindex="-1">A few more details</h2>
+            <p class="panel-hint">This helps decide how urgent things are, not just what's likely.</p>
+
+            <div class="detail-field">
+              <label for="duration">How long has this been going on?</label>
+              <select id="duration">
+                <option value="today">Started today</option>
+                <option value="days" selected>A few days</option>
+                <option value="week">About a week</option>
+                <option value="weeks">More than two weeks</option>
+              </select>
+            </div>
+
+            <div class="detail-field">
+              <label for="severity">How severe does it feel? <output id="severityOut">5</output>/10</label>
+              <input type="range" id="severity" min="1" max="10" value="5">
+              <div class="scale-legend" aria-hidden="true"><span>1 — Mild</span><span>10 — Severe</span></div>
+            </div>
+
+            <div class="detail-field">
+              <label for="age">Age</label>
+              <input type="number" id="age" min="1" max="120" placeholder="Enter your age" required aria-describedby="ageError">
+              <p class="field-error" id="ageError" role="alert" hidden></p>
+            </div>
+
+            <div class="panel-actions">
+              <button class="btn btn-ghost" id="backTo1">Back</button>
+              <button class="btn btn-primary" id="toStep3">See my results</button>
+            </div>
+          </div>
+
+          <!-- STEP 3 -->
+          <div class="panel-step" data-panel="3" hidden>
+            <h2 id="resultsTitle" tabindex="-1">Your result</h2>
+            <div id="resultsArea"></div>
+            <div class="panel-actions">
+              <button class="btn btn-ghost" id="backTo2">Back</button>
+              <button class="btn btn-primary" id="restart">Start over</button>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <section id="about" class="about wrap">
+      <h2>What Meridian is — and isn't</h2>
+      <p>Meridian compares what you select against patterns common to everyday conditions like colds, migraines, or minor stomach bugs. It's built to help you decide your next step faster, the way you would think it through with a knowledgeable friend.</p>
+      <p>It isn't a doctor. It doesn't examine you, know your history, or account for every possibility. Any result here is a starting point for a conversation with a real clinician, never a replacement for one.</p>
+    </section>
+
+  </div>
+
+  <!-- ============ AUTH VIEW ============ -->
+  <div class="view" data-view="auth" id="view-auth" hidden>
+    <div class="wrap auth-main">
+      <div class="auth-card">
+        <div class="auth-tabs">
+          <button class="auth-tab active" data-tab="signup" type="button">Create account</button>
+          <button class="auth-tab" data-tab="login" type="button">Log in</button>
+        </div>
+
+        <!-- SIGN UP -->
+        <div class="auth-panel" data-panel="signup">
+          <form id="signupForm" class="auth-form" novalidate>
+            <label>Name<input type="text" id="suName" required autocomplete="name" placeholder="Enter your name"></label>
+            <label>Username<input type="text" id="suUsername" required minlength="3" maxlength="24" pattern="[A-Za-z0-9_]{3,24}" autocomplete="username" placeholder="Enter your username"></label>
+            <label>Password<input type="password" id="suPassword" minlength="6" required autocomplete="new-password" placeholder="Enter a password"></label>
+            <p class="form-error" id="signupError" role="alert" hidden></p>
+            <button type="submit" class="btn btn-primary btn-block">Create account</button>
+          </form>
+
+          <p class="auth-note">Accounts and passwords are stored securely on the backend server. Passwords are hashed and never stored in plain text. Use your username and password to sign in.</p>
+        </div>
+
+        <!-- LOG IN -->
+        <div class="auth-panel" data-panel="login" hidden>
+          <form id="loginForm" class="auth-form" novalidate>
+            <label>Username<input type="text" id="liUsername" required minlength="3" maxlength="24" pattern="[A-Za-z0-9_]{3,24}" autocomplete="username"></label>
+            <label>Password<input type="password" id="liPassword" required autocomplete="current-password"></label>
+            <p class="form-error" id="loginError" role="alert" hidden></p>
+            <button type="submit" class="btn btn-primary btn-block">Log in</button>
+          </form>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ ACCOUNT VIEW ============ -->
+  <div class="view" data-view="account" id="view-account" hidden>
+    <div class="wrap account-main">
+      <div id="accountPanel"></div>
+    </div>
+  </div>
+
+  <!-- ============ HISTORY VIEW ============ -->
+  <div class="view" data-view="history" id="view-history" hidden>
+    <div class="wrap history-main">
+      <div id="historyPageHeader">
+        <h1>Your saved checks</h1>
+        <p class="panel-hint">Every check you complete while signed in is saved to your account.</p>
+      </div>
+
+      <div id="historyGate" class="auth-gate" hidden>
+        <p>Sign in to see your history.</p>
+        <button class="btn btn-primary" type="button" data-nav="auth">Sign in</button>
+      </div>
+
+      <div id="historyList" hidden></div>
+
+      <div class="history-actions" hidden>
+        <button class="btn btn-ghost" id="clearHistoryBtn" type="button">Clear history</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ HISTORY DETAIL VIEW ============ -->
+  <div class="view" data-view="history-detail" id="view-history-detail" hidden>
+    <div class="wrap detail-main">
+      <div id="historyDetailContainer"></div>
+    </div>
+  </div>
+
+</main>
+
+<footer class="site-footer wrap">
+  <p><strong>Meridian is an educational tool for general guidance only.</strong> It does not diagnose conditions or replace professional medical advice. If symptoms are severe, worsening, or you're worried, contact a doctor or your local emergency number (for example, 112 in India, 911 in the US, 999 in the UK).</p>
+</footer>
+
+<dialog id="clearDialog" class="dialog" aria-labelledby="clearTitle">
+  <h2 id="clearTitle">Clear your symptom history?</h2>
+  <p>This will permanently remove your saved checks.</p>
+  <div class="dialog-actions">
+    <button class="btn btn-ghost" id="clearCancel" type="button">Cancel</button>
+    <button class="btn btn-danger" id="clearConfirm" type="button">Clear history</button>
+  </div>
+</dialog>
+<div id="toast" class="toast" role="status" aria-live="polite" hidden></div>
+
+<script src="analysis.js"></script>
+<script src="chat.js"></script>
+<script src="script.js"></script>
+</body>
+</html>

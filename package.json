@@ -1,0 +1,12 @@
+{
+  "name": "meridian-backend",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Meridian symptom checker — backend (zero npm dependencies).",
+  "engines": {
+    "node": ">=22.5.0"
+  },
+  "scripts": {
+    "start": "node server.js"
+  }
+}

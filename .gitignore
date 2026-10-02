@@ -1,0 +1,16 @@
+# Environment / secrets
+.env
+
+# Local database
+meridian.db
+
+# Logs
+*.log
+npm-debug.log*
+
+# OS files
+Thumbs.db
+.DS_Store
+
+# Local backup
+phase5-backup/
